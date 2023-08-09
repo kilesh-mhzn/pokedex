@@ -29,8 +29,11 @@ const PokemonCards: React.FC<CardProps> = ({ pokemons }) => {
             <div className="flex flex-col justify-around z-10">
               <div className="font-game text-white">{pokemon.name}</div>
               <div className="flex flex-col items-start gap-2">
-                {pokemon.pokemonType.map((type) => (
-                  <div className="rounded-2xl px-4 py-1 bg-white opacity-60 text-sm text-slate-800">
+                {pokemon.pokemonType.map((type, i) => (
+                  <div
+                    key={i}
+                    className="rounded-2xl px-4 py-1 bg-white opacity-60 text-sm text-slate-800"
+                  >
                     {type}
                   </div>
                 ))}

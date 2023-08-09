@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GenerationSelector from "./components/GenerationSelector";
 import PokemonCards from "./components/PokemonCards";
+import { useFetch } from "./hooks/useFetch";
+
+interface pokemon {
+  name: string;
+  url: string;
+}
 
 function App() {
   const tabs = [
@@ -55,11 +61,24 @@ function App() {
   const handleTabChange = (activeTab: number) => {
     setCurrentTab(activeTab);
   };
+  const loadData = () => {};
+  const [data, loading] = useFetch<pokemon[]>(
+    "https://pokeapi.co/api/v2/generation/1",
+    []
+  );
+  useEffect(() => {
+    console.log(data);
+    console.log(loading);
+  }, [data]);
   return (
     <>
+      {loading ? "loading" : "not"}
+
       <div className="background-container"></div>
       <div className="container mx-auto">
-        <div className="text-center">Pokédex App</div>
+        <div onClick={loadData} className="text-center">
+          Pokédex App
+        </div>
         <div className="text-center text-blue-600 font-bold text-lg:">
           Select Generation:
         </div>
