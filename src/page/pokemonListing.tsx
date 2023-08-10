@@ -4,6 +4,7 @@ import PokemonCards from "../components/PokemonCards";
 import Loader from "../components/loader";
 import { Pokemon } from "../components/pokemonCard";
 import { PokemonContext } from "../contexts/pokemonContext";
+import { Logo } from "../components/logo";
 
 function PokemonListing() {
   const [loading, setLoading] = useState(false);
@@ -88,19 +89,7 @@ function PokemonListing() {
   return (
     <div>
       <div className="container mx-auto">
-        <div className="flex justify-center items-baseline tracking-wide text-6xl font-extrabold my-6">
-          P
-          <img
-            className="mr-[0.025em]"
-            width={36}
-            src="public\logo.svg"
-            alt="o"
-          />
-          <span className="underline underline-offset-8 decoration-red-400">
-            kéd
-          </span>
-          ex
-        </div>
+        <Logo />
         <div className="text-center text-blue-600 font-bold text-lg mb-6">
           Select Generation:
         </div>
