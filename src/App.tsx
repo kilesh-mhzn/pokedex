@@ -1,9 +1,13 @@
-import "./App.css";
+import PokemonListing from "./page/pokemonListing";
+import PokemonProvider from "./contexts/pokemonContext";
 
 function App() {
   return (
     <>
-      <div className="text-red-500 text-3xl">Pokedex App</div>
+      <div className="background-container"></div>
+      <PokemonProvider>
+        <PokemonListing />
+      </PokemonProvider>
     </>
   );
 }
