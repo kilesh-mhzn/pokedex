@@ -1,19 +1,10 @@
 import { useEffect, useState } from "react";
 import GenerationSelector from "../components/GenerationSelector";
 import PokemonCards from "../components/PokemonCards";
-import { useFetch, TApiResponse } from "../hooks/useFetch";
+import Loader from "../components/loader";
 
 function PokemonListing() {
-  // const tabs = [
-  //   { id: 1, label: "I" },
-  //   { id: 2, label: "II" },
-  //   { id: 3, label: "III" },
-  //   { id: 4, label: "IV" },
-  //   { id: 5, label: "V" },
-  //   { id: 6, label: "VI" },
-  //   { id: 7, label: "VII" },
-  //   { id: 8, label: "VIII" },
-  // ];
+  const [loading, setLoading] = useState(false);
   const [tabs, setTabs] = useState([]);
   const [currentTab, setCurrentTab] = useState<number>(0);
 
@@ -35,10 +26,6 @@ function PokemonListing() {
           label: generation.name.replace("generation-", "").toUpperCase(),
         })
       );
-      console.log(
-        "🚀 ~ file: pokemonListing.tsx:36 ~ generationsWithLabels ~ generationsWithLabels:",
-        generationsWithLabels
-      );
       setTabs(generationsWithLabels);
     } catch (error) {}
   };
@@ -48,6 +35,7 @@ function PokemonListing() {
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const pokemonGenerationDetail = await fetch(
         `https://pokeapi.co/api/v2/generation/${currentTab + 1}/`
@@ -87,6 +75,8 @@ function PokemonListing() {
       setPokemonData(filteredPokemonData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,7 +99,7 @@ function PokemonListing() {
           Select Generation:
         </div>
         <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
-        <PokemonCards pokemons={pokemonData} />
+        {loading ? <Loader /> : <PokemonCards pokemons={pokemonData} />}
       </div>
     </div>
   );
