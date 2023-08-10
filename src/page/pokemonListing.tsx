@@ -88,9 +88,15 @@ function PokemonListing() {
   return (
     <div>
       <div className="container mx-auto">
-        <div className="text-center text-6xl font-extrabold my-6">
-          Po
-          <span className="underline underline-offset-8 decoration-red-700">
+        <div className="flex justify-center items-baseline tracking-wide text-6xl font-extrabold my-6">
+          P
+          <img
+            className="mr-[0.025em]"
+            width={36}
+            src="public\logo.svg"
+            alt="o"
+          />
+          <span className="underline underline-offset-8 decoration-red-400">
             kéd
           </span>
           ex
