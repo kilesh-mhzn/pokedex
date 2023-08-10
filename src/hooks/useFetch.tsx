@@ -1,17 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-export const useFetch = <T,>(url: string, initialState: T): [T, boolean] => {
-  const [data, setData] = useState<T>(initialState);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
+export type TApiResponse = {
+  data: any;
+  error: any;
+  loading: Boolean;
+};
+
+export const useFetch = (url: string): TApiResponse => {
+  const [data, setData] = useState<any>();
+  const [error, setError] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fetchData = async () => {
     setLoading(true);
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      })
-      .finally(() => setLoading(false));
-  }, [url]);
+    try {
+      const apiResponse = await fetch(url);
+      const json = await apiResponse.json();
+      setData(json);
+    } catch (error) {
+      setError(error);
+    }
+    setLoading(false);
+  };
 
-  return [data, loading];
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return { data, error, loading };
 };

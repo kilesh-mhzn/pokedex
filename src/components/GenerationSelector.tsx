@@ -22,11 +22,11 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
 
   return (
     <div className="flex justify-center">
-      <div className="flex shadow dark:bg-slate-800 bg-white rounded font-semibold">
+      <div className="flex shadow dark:bg-slate-800 bg-slate-50 rounded font-semibold">
         {tabs.map((tab, index) => (
           <div
             key={tab.id}
-            className={`w-[44px] flex justify-center py-2 cursor-pointer hover:bg-slate-100 
+            className={`w-[44px] flex justify-center py-2 cursor-pointer hover:bg-slate-200 
              first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br 
             ${activeTab === index ? " border-b-4 border-b-blue-500" : ""}`}
             onClick={() => handleTabClick(index)}
