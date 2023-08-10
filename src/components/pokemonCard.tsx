@@ -13,6 +13,7 @@ export interface pokemonType {
 }
 
 export interface Pokemon {
+  url: string;
   order: number;
   name: string;
   image: string | undefined;

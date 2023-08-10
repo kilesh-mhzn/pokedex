@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import GenerationSelector from "../components/GenerationSelector";
 import PokemonCards from "../components/PokemonCards";
 import Loader from "../components/loader";
+import { Pokemon } from "../components/pokemonCard";
 
 function PokemonListing() {
   const [loading, setLoading] = useState(false);
   const [tabs, setTabs] = useState([]);
   const [currentTab, setCurrentTab] = useState<number>(0);
 
-  const [pokemonData, setPokemonData] = useState([]);
+  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
 
   const handleTabChange = (activeTab: number) => {
     setCurrentTab(activeTab);
@@ -36,45 +37,45 @@ function PokemonListing() {
 
   const fetchData = async () => {
     setLoading(true);
+
     try {
-      const pokemonGenerationDetail = await fetch(
-        `https://pokeapi.co/api/v2/generation/${currentTab + 1}/`
-      );
-      const pokemonGenerationDetailData = await pokemonGenerationDetail.json();
+      const generationUrl = `https://pokeapi.co/api/v2/generation/${
+        currentTab + 1
+      }/`;
+      const generationResponse = await fetch(generationUrl);
+      const generationData = await generationResponse.json();
 
-      const fetchedPokemonData: any = await Promise.all(
-        pokemonGenerationDetailData.pokemon_species.map(
-          async (pokemon: any) => {
-            try {
-              const pokemonSpeciesDetail = await fetch(pokemon.url);
-              const pokemonSpeciesDetailData =
-                await pokemonSpeciesDetail.json();
+      const fetchedPokemonPromises = generationData.pokemon_species.map(
+        async (pokemon: Pokemon) => {
+          try {
+            const speciesDetailResponse = await fetch(pokemon.url);
+            const speciesDetailData = await speciesDetailResponse.json();
 
-              const pokemonDetail = await fetch(
-                `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-              );
-              const pokemonDetailData = await pokemonDetail.json();
+            const pokemonDetailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`;
+            const pokemonDetailResponse = await fetch(pokemonDetailUrl);
+            const pokemonDetailData = await pokemonDetailResponse.json();
 
-              const combinedPokemonData = {
-                ...pokemonDetailData,
-                color: pokemonSpeciesDetailData.color,
-              };
-              return combinedPokemonData;
-            } catch (error) {
-              console.log(`Error fetching details for ${pokemon.name}:`, error);
-              return null;
-            }
+            const combinedPokemonData = {
+              ...pokemonDetailData,
+              color: speciesDetailData.color,
+            };
+
+            return combinedPokemonData;
+          } catch (error) {
+            console.error(`Error fetching details for ${pokemon.name}:`, error);
+            return null;
           }
-        )
+        }
       );
 
+      const fetchedPokemonData = await Promise.all(fetchedPokemonPromises);
       const filteredPokemonData = fetchedPokemonData.filter(
-        (pokemon: any) => pokemon !== null
+        (pokemon) => pokemon !== null
       );
 
       setPokemonData(filteredPokemonData);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
