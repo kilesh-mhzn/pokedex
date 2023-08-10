@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import GenerationSelector from "../components/GenerationSelector";
 import PokemonCards from "../components/PokemonCards";
 import Loader from "../components/loader";
 import { Pokemon } from "../components/pokemonCard";
+import { PokemonContext } from "../contexts/pokemonContext";
 
 function PokemonListing() {
   const [loading, setLoading] = useState(false);
   const [tabs, setTabs] = useState([]);
   const [currentTab, setCurrentTab] = useState<number>(0);
 
-  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
-
+  const { pokemonData, setPokemonData } = useContext(PokemonContext);
   const handleTabChange = (activeTab: number) => {
     setCurrentTab(activeTab);
   };
@@ -82,7 +82,6 @@ function PokemonListing() {
   };
 
   useEffect(() => {
-    setPokemonData([]);
     fetchData();
   }, [currentTab]);
 
