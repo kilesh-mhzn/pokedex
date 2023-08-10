@@ -30,7 +30,7 @@ interface CardProps {
 const PokemonCards: React.FC<CardProps> = ({ pokemons }) => {
   return (
     <div
-      className={`grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
+      className={`grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
       m-4 md:m-0`}
     >
       {pokemons.map((pokemon, i) => (
