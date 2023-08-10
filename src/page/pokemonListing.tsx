@@ -4,16 +4,17 @@ import PokemonCards from "../components/PokemonCards";
 import { useFetch, TApiResponse } from "../hooks/useFetch";
 
 function PokemonListing() {
-  const tabs = [
-    { id: 1, label: "I" },
-    { id: 2, label: "II" },
-    { id: 3, label: "III" },
-    { id: 4, label: "IV" },
-    { id: 5, label: "V" },
-    { id: 6, label: "VI" },
-    { id: 7, label: "VII" },
-    { id: 8, label: "VIII" },
-  ];
+  // const tabs = [
+  //   { id: 1, label: "I" },
+  //   { id: 2, label: "II" },
+  //   { id: 3, label: "III" },
+  //   { id: 4, label: "IV" },
+  //   { id: 5, label: "V" },
+  //   { id: 6, label: "VI" },
+  //   { id: 7, label: "VII" },
+  //   { id: 8, label: "VIII" },
+  // ];
+  const [tabs, setTabs] = useState([]);
   const [currentTab, setCurrentTab] = useState<number>(0);
 
   const [pokemonData, setPokemonData] = useState([]);
@@ -21,6 +22,30 @@ function PokemonListing() {
   const handleTabChange = (activeTab: number) => {
     setCurrentTab(activeTab);
   };
+
+  const fetchGenerations = async () => {
+    try {
+      const generationsData = await fetch(
+        `https://pokeapi.co/api/v2/generation/`
+      );
+      const generations = await generationsData.json();
+      const generationsWithLabels = generations.results.map(
+        (generation: any) => ({
+          ...generation,
+          label: generation.name.replace("generation-", "").toUpperCase(),
+        })
+      );
+      console.log(
+        "🚀 ~ file: pokemonListing.tsx:36 ~ generationsWithLabels ~ generationsWithLabels:",
+        generationsWithLabels
+      );
+      setTabs(generationsWithLabels);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchGenerations();
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -73,12 +98,17 @@ function PokemonListing() {
   return (
     <div>
       <div className="container mx-auto">
-        <div className="text-center">Pokédex App</div>
-        <div className="text-center text-blue-600 font-bold text-lg:">
+        <div className="text-center text-6xl font-extrabold my-6">
+          Po
+          <span className="underline underline-offset-8 decoration-red-700">
+            kéd
+          </span>
+          ex
+        </div>
+        <div className="text-center text-blue-600 font-bold text-lg mb-6">
           Select Generation:
         </div>
         <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
-        <div>Current Tab: {currentTab + 1}</div>
         <PokemonCards pokemons={pokemonData} />
       </div>
     </div>

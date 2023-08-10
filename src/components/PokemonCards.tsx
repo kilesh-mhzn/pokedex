@@ -18,6 +18,7 @@ interface Pokemon {
   image: string | undefined;
   types: pokemonType[];
   sprites: {
+    front_default: string;
     other: OtherSprites;
   };
   color: {
@@ -55,7 +56,7 @@ const PokemonCards: React.FC<CardProps> = ({ pokemons }) => {
                 {pokemon.types.map(({ type }, i) => (
                   <div
                     key={i}
-                    className="rounded-2xl px-4 py-1 bg-white-100 opacity-60 text-sm text-slate-800 capitalize"
+                    className="rounded-2xl px-4 py-1 bg-white-100 opacity-60 font-semibold text-sm text-slate-800 capitalize"
                   >
                     {type.name}
                   </div>
@@ -65,8 +66,11 @@ const PokemonCards: React.FC<CardProps> = ({ pokemons }) => {
             <div className="z-10">
               <img
                 className="h-[150px]"
-                src={pokemon.sprites.other.dream_world.front_default}
-                alt=""
+                src={
+                  pokemon.sprites.other.dream_world.front_default ||
+                  pokemon.sprites.front_default
+                }
+                loading="lazy"
               />
             </div>
           </div>
