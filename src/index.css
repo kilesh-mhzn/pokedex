@@ -18,12 +18,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-/* body {
-  background: url(assets/images/bg-dark.jpeg);
-  height: 100vh;
-  filter: blur(1px);
-  -webkit-filter: blur(1px);
-} */
 .background-container {
   position: fixed;
   top: 0;
@@ -82,5 +76,6 @@ button:focus-visible {
   }
   .background-container {
     background: url(assets/images/bg-light.jpeg) no-repeat center center;
+    background-size: cover;
   }
 }
