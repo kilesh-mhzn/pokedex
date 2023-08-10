@@ -36,15 +36,13 @@ function PokemonListing() {
   }, []);
 
   return (
-    <div>
-      <div className="container mx-auto">
-        <Logo />
-        <div className="text-center text-blue-600 font-bold text-lg mb-6">
-          Select Generation:
-        </div>
-        <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
-        {loading ? <Loader /> : <PokemonCards pokemons={pokemonData} />}
+    <div className="container mx-auto mb-12">
+      <Logo />
+      <div className="text-center text-blue-600 font-bold text-lg mb-6">
+        Select Generation:
       </div>
+      <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
+      {loading ? <Loader /> : <PokemonCards pokemons={pokemonData} />}
     </div>
   );
 }

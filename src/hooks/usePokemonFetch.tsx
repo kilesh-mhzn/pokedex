@@ -5,14 +5,14 @@ const usePokemonFetch = (currentTab: number) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
 
+  const baseUrl = "https://pokeapi.co/api/v2";
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
 
       try {
-        const generationUrl = `https://pokeapi.co/api/v2/generation/${
-          currentTab + 1
-        }/`;
+        const generationUrl = `${baseUrl}/generation/${currentTab + 1}`;
         const generationResponse = await fetch(generationUrl);
         const generationData = await generationResponse.json();
 
@@ -22,7 +22,7 @@ const usePokemonFetch = (currentTab: number) => {
               const speciesDetailResponse = await fetch(pokemon.url);
               const speciesDetailData = await speciesDetailResponse.json();
 
-              const pokemonDetailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`;
+              const pokemonDetailUrl = `${baseUrl}/pokemon/${pokemon.name}`;
               const pokemonDetailResponse = await fetch(pokemonDetailUrl);
               const pokemonDetailData = await pokemonDetailResponse.json();
 
