@@ -2,19 +2,18 @@ import { useEffect, useState, useContext } from "react";
 import GenerationSelector from "../components/GenerationSelector";
 import PokemonCards from "../components/PokemonCards";
 import Loader from "../components/loader";
-import { Pokemon } from "../components/pokemonCard";
-import { PokemonContext } from "../contexts/pokemonContext";
 import { Logo } from "../components/logo";
+import usePokemonFetch from "../hooks/usePokemonFetch";
 
 function PokemonListing() {
-  const [loading, setLoading] = useState(false);
   const [tabs, setTabs] = useState([]);
   const [currentTab, setCurrentTab] = useState<number>(0);
 
-  const { pokemonData, setPokemonData } = useContext(PokemonContext);
   const handleTabChange = (activeTab: number) => {
     setCurrentTab(activeTab);
   };
+
+  const { loading, pokemonData } = usePokemonFetch(currentTab);
 
   const fetchGenerations = async () => {
     try {
@@ -35,56 +34,6 @@ function PokemonListing() {
   useEffect(() => {
     fetchGenerations();
   }, []);
-
-  const fetchData = async () => {
-    setLoading(true);
-
-    try {
-      const generationUrl = `https://pokeapi.co/api/v2/generation/${
-        currentTab + 1
-      }/`;
-      const generationResponse = await fetch(generationUrl);
-      const generationData = await generationResponse.json();
-
-      const fetchedPokemonPromises = generationData.pokemon_species.map(
-        async (pokemon: Pokemon) => {
-          try {
-            const speciesDetailResponse = await fetch(pokemon.url);
-            const speciesDetailData = await speciesDetailResponse.json();
-
-            const pokemonDetailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`;
-            const pokemonDetailResponse = await fetch(pokemonDetailUrl);
-            const pokemonDetailData = await pokemonDetailResponse.json();
-
-            const combinedPokemonData = {
-              ...pokemonDetailData,
-              color: speciesDetailData.color,
-            };
-
-            return combinedPokemonData;
-          } catch (error) {
-            console.error(`Error fetching details for ${pokemon.name}:`, error);
-            return null;
-          }
-        }
-      );
-
-      const fetchedPokemonData = await Promise.all(fetchedPokemonPromises);
-      const filteredPokemonData = fetchedPokemonData.filter(
-        (pokemon) => pokemon !== null
-      );
-
-      setPokemonData(filteredPokemonData);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [currentTab]);
 
   return (
     <div>

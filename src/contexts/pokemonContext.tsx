@@ -6,7 +6,6 @@ import {
   SetStateAction,
 } from "react";
 
-// Define interfaces for better type checking and clarity
 interface Sprite {
   front_default: string;
 }
