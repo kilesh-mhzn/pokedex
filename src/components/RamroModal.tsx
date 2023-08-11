@@ -1,4 +1,5 @@
 import { FC, ReactNode } from "react";
+import { IconClose } from "./icons";
 
 interface ModalProps {
   isOpen: boolean;
@@ -22,9 +23,9 @@ const RamroModal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
       <div className="bg-slate-100 rounded-lg p-6 shadow-xl z-50 relative">
         <div
           onClick={closeModal}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 cursor-pointer"
         >
-          Close
+          <IconClose size="1.5em" color="#000" />
         </div>
         <div className="modal-content">{children}</div>
       </div>
