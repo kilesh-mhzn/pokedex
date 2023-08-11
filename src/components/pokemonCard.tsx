@@ -29,11 +29,13 @@ export interface Pokemon {
 
 interface CardProps {
   pokemon: Pokemon;
+  onClick: () => void;
 }
-export const PokemonCard: React.FC<CardProps> = ({ pokemon }) => {
+export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {
   return (
     <div
-      className={`relative rounded-2xl p-10 pr-3 overflow-hidden shadow-lg 
+      onClick={onClick}
+      className={`relative rounded-2xl p-10 pr-3 overflow-hidden shadow-lg cursor-pointer
         bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50`}
     >
       <span className="text-white z-0 absolute right-6 top-3 text-2xl opacity-60 ">
