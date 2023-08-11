@@ -80,6 +80,6 @@ button:focus-visible {
   }
 }
 
-tr {
+.pokemon__detail tr {
   @apply space-x-8;
 }

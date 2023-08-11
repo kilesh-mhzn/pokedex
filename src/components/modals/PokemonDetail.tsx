@@ -9,26 +9,28 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
   const aboutContent = () => {
     return (
       <table className="capitalize">
-        <tr>
-          <td>Species</td>
-          <td className="flex gap-4 font-semibold ">
-            {pokemon.types.map(({ type }) => type.name).join(", ")}
-          </td>
-        </tr>
-        <tr>
-          <td>Height</td>
-          <td className="flex font-semibold">{pokemon.height}cm</td>
-        </tr>
-        <tr>
-          <td>Weight</td>
-          <td className="flex font-semibold">{pokemon.weight / 10}kg</td>
-        </tr>
-        <tr>
-          <td>Abilities</td>
-          <td className="flex gap-4 font-semibold">
-            {pokemon.abilities.map(({ ability }) => ability.name).join(", ")}
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Species</td>
+            <td className="flex gap-4 font-semibold ">
+              {pokemon.types.map(({ type }) => type.name).join(", ")}
+            </td>
+          </tr>
+          <tr>
+            <td>Height</td>
+            <td className="flex font-semibold">{pokemon.height}cm</td>
+          </tr>
+          <tr>
+            <td>Weight</td>
+            <td className="flex font-semibold">{pokemon.weight / 10}kg</td>
+          </tr>
+          <tr>
+            <td>Abilities</td>
+            <td className="flex gap-4 font-semibold">
+              {pokemon.abilities.map(({ ability }) => ability.name).join(", ")}
+            </td>
+          </tr>
+        </tbody>
       </table>
     );
   };
@@ -45,11 +47,11 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
   };
   return (
     <div
-      className={`bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50 h-full 
+      className={`pokemon__detail bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50 h-full 
       flex flex-col justify-between`}
     >
       <img
-        className="absolute z-0 opacity-60 right-[-40px] bottom-[100px] w-1/3 "
+        className="absolute z-0 opacity-60 right-[-40px] bottom-[180px] w-1/3 "
         src="src\assets\icons\pokeball.svg"
       />
       <div className="flex flex-col items-center gap-4 p-6 pt-8">

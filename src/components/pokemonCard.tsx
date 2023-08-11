@@ -46,7 +46,7 @@ export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {
       className={`relative rounded-2xl p-10 pr-3 overflow-hidden shadow-lg cursor-pointer
         bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50`}
     >
-      <span className="text-white z-0 absolute right-6 top-3 text-2xl opacity-60 ">
+      <span className="text-white-100 z-0 absolute right-6 top-3 text-2xl opacity-60 ">
         #{String(pokemon.order).padStart(3, "0")}
       </span>
       <img
@@ -55,7 +55,9 @@ export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {
       />
       <div className="flex justify-between gap-2 ">
         <div className="flex flex-col justify-around z-10">
-          <div className="font-game text-white capitalize">{pokemon.name}</div>
+          <div className="font-game text-white-100 capitalize">
+            {pokemon.name}
+          </div>
           <div className="flex flex-col items-start gap-2">
             {pokemon.types.map(({ type }, i) => (
               <div
