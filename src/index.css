@@ -79,3 +79,7 @@ button:focus-visible {
     background-size: cover;
   }
 }
+
+tr {
+  @apply space-x-8;
+}

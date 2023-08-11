@@ -1,6 +1,7 @@
 import { useState } from "react";
 import RamroModal from "./RamroModal";
 import { PokemonCard, Pokemon } from "./pokemonCard";
+import { PokemonDetail } from "./modals/pokemonDetail";
 
 interface CardProps {
   pokemons: Pokemon[];
@@ -32,12 +33,7 @@ const PokemonCards: React.FC<CardProps> = ({ pokemons }) => {
 
       <RamroModal isOpen={isModalOpen} onClose={closeModal}>
         {selectedPokemon && (
-          <>
-            <h2 className="text-xl font-bold mb-2">
-              Hello, I'm {selectedPokemon.name}!
-            </h2>
-            <p>This is some modal content.</p>
-          </>
+          <PokemonDetail pokemon={selectedPokemon}></PokemonDetail>
         )}
       </RamroModal>
     </div>

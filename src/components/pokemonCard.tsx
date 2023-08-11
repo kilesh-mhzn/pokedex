@@ -11,6 +11,11 @@ export interface pokemonType {
     name: string;
   };
 }
+export interface Ability {
+  ability: {
+    name: string;
+  };
+}
 
 export interface Pokemon {
   url: string;
@@ -25,6 +30,9 @@ export interface Pokemon {
   color: {
     name: string;
   };
+  weight: number;
+  abilities: Ability[];
+  height: number;
 }
 
 interface CardProps {
