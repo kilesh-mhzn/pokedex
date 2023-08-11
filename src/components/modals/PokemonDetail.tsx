@@ -76,7 +76,10 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
       className={`pokemon__detail bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50 h-full 
       flex flex-col justify-between`}
     >
-      <div className="flex flex-col items-center gap-4 p-6 pt-8">
+      <div className="relative flex flex-col items-center gap-4 p-6 pt-8">
+        <span className="text-white-100 z-0 absolute left-6 top-3 text-2xl opacity-60 ">
+          #{String(pokemon.order).padStart(3, "0")}
+        </span>
         <div className="font-game text-white capitalize">{pokemon.name}</div>
         <div className="flex gap-3 justify-center">
           {pokemon.types.map(({ type }, i) => (
