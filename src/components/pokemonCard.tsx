@@ -1,18 +1,24 @@
-export interface Sprite {
+interface Sprite {
   front_default: string;
 }
 
-export interface OtherSprites {
+interface OtherSprites {
   dream_world: Sprite;
 }
 
-export interface pokemonType {
+interface pokemonType {
   type: {
     name: string;
   };
 }
-export interface Ability {
+interface Ability {
   ability: {
+    name: string;
+  };
+}
+interface Stat {
+  base_stat: number;
+  stat: {
     name: string;
   };
 }
@@ -33,6 +39,7 @@ export interface Pokemon {
   weight: number;
   abilities: Ability[];
   height: number;
+  stats: Stat[];
 }
 
 interface CardProps {

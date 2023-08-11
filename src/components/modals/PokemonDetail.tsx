@@ -34,9 +34,35 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
       </table>
     );
   };
+
+  const baseStats = () => {
+    return (
+      <div>
+        {pokemon.stats.map(({ stat, base_stat }, index) => {
+          const barWidth = base_stat > 100 ? "100%" : `${base_stat}%`;
+
+          return (
+            <div key={index} className="mb-4">
+              <div className="flex items-center justify-between mb-1">
+                <div className="capitalize font-semibold">{stat.name}</div>
+                <div className="text-gray-500">{base_stat}</div>
+              </div>
+              <div className="h-3 bg-gray-300 overflow-hidden rounded-full">
+                <div
+                  style={{ width: barWidth }}
+                  className={`h-full  bg-blue-500 transition-all`}
+                ></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   const [tabs, setTabs] = useState([
     { label: "About", content: aboutContent() },
-    { label: "Base Stats", content: <div>Content for Tab 2</div> },
+    { label: "Base Stats", content: baseStats() },
     { label: "Evolution", content: <div>Content for Tab 3</div> },
   ]);
 
@@ -50,10 +76,6 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
       className={`pokemon__detail bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50 h-full 
       flex flex-col justify-between`}
     >
-      <img
-        className="absolute z-0 opacity-60 right-[-40px] bottom-[180px] w-1/3 "
-        src="src\assets\icons\pokeball.svg"
-      />
       <div className="flex flex-col items-center gap-4 p-6 pt-8">
         <div className="font-game text-white capitalize">{pokemon.name}</div>
         <div className="flex gap-3 justify-center">
@@ -66,8 +88,13 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
             </div>
           ))}
         </div>
+        <div className="min-h-[150px]"></div>
       </div>
-      <div className="relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
+      <div className="pokemon_tabs relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
+        <img
+          className="absolute z-0 opacity-60 right-[-40px] top-[-120px] w-1/3 "
+          src="src\assets\icons\pokeball.svg"
+        />
         <img
           className="h-[150px] absolute top-[-130px] right-1/2 translate-x-1/2 "
           src={
