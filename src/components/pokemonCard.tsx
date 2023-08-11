@@ -36,6 +36,9 @@ export interface Pokemon {
   color: {
     name: string;
   };
+  generation: {
+    name: string;
+  };
   weight: number;
   abilities: Ability[];
   height: number;

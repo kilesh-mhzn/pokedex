@@ -1,7 +1,7 @@
 import { useState } from "react";
 import RamroModal from "./RamroModal";
 import { PokemonCard, Pokemon } from "./pokemonCard";
-import { PokemonDetail } from "./modals/pokemonDetail";
+import { PokemonDetail } from "./modals/PokemonDetail";
 
 interface CardProps {
   pokemons: Pokemon[];
