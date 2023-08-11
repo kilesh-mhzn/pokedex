@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import GenerationSelector from "../components/GenerationSelector";
 import PokemonCards from "../components/PokemonCards";
 import Loader from "../components/loader";
