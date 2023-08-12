@@ -43,7 +43,7 @@ function PokemonListing() {
 
   return (
     <div className="container mx-auto mb-12">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-center">
         <div></div>
         <Logo />
         <div>
