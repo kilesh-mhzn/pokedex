@@ -60,7 +60,7 @@ const usePokemonFetch = (currentTab: number | null) => {
     setIsLoading(true);
 
     try {
-      if (!currentTab) return;
+      if (currentTab === null) return;
       const generationUrl = `${baseUrl}/generation/${currentTab + 1}`;
       const generationResponse = await fetch(generationUrl);
       const generationData = await generationResponse.json();
