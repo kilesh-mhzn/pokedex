@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import GenerationSelector from "../components/GenerationSelector";
 import PokemonCards from "../components/PokemonCards";
 import Loader from "../components/loader";
@@ -7,13 +7,13 @@ import usePokemonFetch from "../hooks/usePokemonFetch";
 
 function PokemonListing() {
   const [tabs, setTabs] = useState([]);
-  const [currentTab, setCurrentTab] = useState<number>(0);
+  const [currentTab, setCurrentTab] = useState<number | null>(null);
 
-  const handleTabChange = (activeTab: number) => {
+  const handleTabChange = (activeTab: number | null) => {
     setCurrentTab(activeTab);
   };
 
-  const { loading, pokemonData } = usePokemonFetch(currentTab);
+  const { pokemonData, isLoading } = usePokemonFetch(currentTab);
 
   const fetchGenerations = async () => {
     try {
@@ -38,11 +38,12 @@ function PokemonListing() {
   return (
     <div className="container mx-auto mb-12">
       <Logo />
-      <div className="text-center text-blue-600 font-bold text-lg mb-6">
+      <div className="text-center text-blue-600 font-bold text-lg mb-2">
         Select Generation:
       </div>
       <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
-      {loading ? <Loader /> : <PokemonCards pokemons={pokemonData} />}
+      {isLoading && <Loader />}
+      {<PokemonCards pokemons={pokemonData} />}
     </div>
   );
 }

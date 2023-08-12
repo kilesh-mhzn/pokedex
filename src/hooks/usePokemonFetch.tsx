@@ -1,64 +1,132 @@
-import { useState, useEffect } from "react";
-import { Pokemon } from "../components/pokemonCard";
+import { useEffect, useContext, useState } from "react";
+import { PokemonContext } from "../contexts/pokemonContext";
 
-const usePokemonFetch = (currentTab: number) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
+const usePokemonFetch = (currentTab: number | null) => {
+  const { pokemonData, isLoading, setIsLoading, setPokemonData } =
+    useContext(PokemonContext);
 
   const baseUrl = "https://pokeapi.co/api/v2";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+  const [offset, setOffset] = useState(0);
 
-      try {
-        const generationUrl = `${baseUrl}/generation/${currentTab + 1}`;
-        const generationResponse = await fetch(generationUrl);
-        const generationData = await generationResponse.json();
+  const fetchData = async () => {
+    setIsLoading(true);
 
-        const fetchedPokemonPromises = generationData.pokemon_species.map(
-          async (pokemon: Pokemon) => {
-            try {
-              const speciesDetailResponse = await fetch(pokemon.url);
-              const speciesDetailData = await speciesDetailResponse.json();
+    try {
+      const pokemonUrl = `${baseUrl}/pokemon?limit=20&offset=${offset}`;
+      const pokemonResponse = await fetch(pokemonUrl);
+      const pokemonData = await pokemonResponse.json();
 
-              const pokemonDetailUrl = `${baseUrl}/pokemon/${pokemon.name}`;
-              const pokemonDetailResponse = await fetch(pokemonDetailUrl);
-              const pokemonDetailData = await pokemonDetailResponse.json();
+      const fetchedPokemonPromises = pokemonData.results.map(
+        async (pokemon) => {
+          try {
+            const pokemonDetailResponse = await fetch(pokemon.url);
+            const pokemonDetailData = await pokemonDetailResponse.json();
 
-              const combinedPokemonData = {
-                ...pokemonDetailData,
-                color: speciesDetailData.color,
-              };
+            const speciesDetailUrl = `${baseUrl}/pokemon-species/${pokemon.name}`;
+            const speciesDetailResponse = await fetch(speciesDetailUrl);
+            const speciesDetailData = await speciesDetailResponse.json();
 
-              return combinedPokemonData;
-            } catch (error) {
-              console.error(
-                `Error fetching details for ${pokemon.name}:`,
-                error
-              );
-              return null;
-            }
+            const combinedPokemonData = {
+              ...pokemonDetailData,
+              color: speciesDetailData.color,
+              generation: speciesDetailData.generation.name,
+            };
+
+            return combinedPokemonData;
+          } catch (error) {
+            console.error(`Error fetching details for ${pokemon.name}:`, error);
+            return null;
           }
-        );
+        }
+      );
 
-        const fetchedPokemonData = await Promise.all(fetchedPokemonPromises);
-        const filteredPokemonData = fetchedPokemonData.filter(
-          (pokemon) => pokemon !== null
-        );
+      const fetchedPokemonData = await Promise.all(fetchedPokemonPromises);
+      const filteredPokemonData = fetchedPokemonData.filter(
+        (pokemon) => pokemon !== null
+      );
 
-        setPokemonData(filteredPokemonData);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      setPokemonData((prevData) => [...prevData, ...filteredPokemonData]);
+      setOffset((offset) => offset + 20);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  const fetchGenerationData = async () => {
+    setIsLoading(true);
+
+    try {
+      const generationUrl = `${baseUrl}/generation/${currentTab + 1}`;
+      const generationResponse = await fetch(generationUrl);
+      const generationData = await generationResponse.json();
+
+      const fetchedPokemonPromises = generationData.pokemon_species.map(
+        async (pokemon) => {
+          try {
+            const speciesDetailResponse = await fetch(pokemon.url);
+            const speciesDetailData = await speciesDetailResponse.json();
+
+            const pokemonDetailUrl = `${baseUrl}/pokemon/${pokemon.name}`;
+            const pokemonDetailResponse = await fetch(pokemonDetailUrl);
+            const pokemonDetailData = await pokemonDetailResponse.json();
+
+            const combinedPokemonData = {
+              ...pokemonDetailData,
+              color: speciesDetailData.color,
+            };
+
+            return combinedPokemonData;
+          } catch (error) {
+            console.error(`Error fetching details for ${pokemon.name}:`, error);
+            return null;
+          }
+        }
+      );
+
+      const fetchedPokemonData = await Promise.all(fetchedPokemonPromises);
+      const filteredPokemonData = fetchedPokemonData.filter(
+        (pokemon) => pokemon !== null
+      );
+
+      setPokemonData(filteredPokemonData);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleScroll = (e) => {
+    const shouldLoadData =
+      window.innerHeight + e.target.documentElement.scrollTop + 1 >=
+      e.target.documentElement.scrollHeight;
+
+    if (shouldLoadData && currentTab === null) {
+      fetchData();
+    }
+  };
+
+  useEffect(() => {
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [offset]);
+
+  useEffect(() => {
+    if (currentTab !== null) {
+      fetchGenerationData();
+    }
   }, [currentTab]);
 
-  return { loading, pokemonData };
+  return { isLoading, pokemonData };
 };
 
 export default usePokemonFetch;

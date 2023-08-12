@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IconClose } from "./icons";
 
 interface Tab {
   id: number;
@@ -7,11 +8,11 @@ interface Tab {
 
 interface TabProps {
   tabs: Tab[];
-  onTabChange?: (activeTab: number) => void;
+  onTabChange?: (activeTab: number | null) => void;
 }
 
 const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<number | null>(null);
 
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex);
@@ -19,9 +20,13 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
       onTabChange(tabIndex);
     }
   };
+  const clearFilter = () => {
+    setActiveTab(null);
+    onTabChange(null);
+  };
 
   return (
-    <div className="flex justify-center mb-6">
+    <div className="flex justify-center mb-8 items-center gap-3">
       <div className="flex shadow dark:bg-slate-800 bg-slate-50 rounded font-semibold">
         {tabs.map((tab, index) => (
           <div
@@ -35,6 +40,11 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
           </div>
         ))}
       </div>
+      {activeTab !== null ? (
+        <div onClick={clearFilter} className="cursor-pointer">
+          <IconClose size="1.5em" color="#000" />
+        </div>
+      ) : null}
     </div>
   );
 };

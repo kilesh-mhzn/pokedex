@@ -79,3 +79,7 @@ button:focus-visible {
     background-size: cover;
   }
 }
+
+.pokemon__detail tr {
+  @apply space-x-8;
+}
