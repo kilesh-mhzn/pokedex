@@ -42,7 +42,8 @@ function PokemonListing() {
         Select Generation:
       </div>
       <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
-      {isLoading ? <Loader /> : <PokemonCards pokemons={pokemonData} />}
+      {isLoading && <Loader />}
+      {<PokemonCards pokemons={pokemonData} />}
     </div>
   );
 }

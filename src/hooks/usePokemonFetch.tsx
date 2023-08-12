@@ -1,24 +1,24 @@
-import { useEffect, useContext } from "react";
-import { Pokemon } from "../components/pokemonCard";
+import { useEffect, useContext, useState } from "react";
 import { PokemonContext } from "../contexts/pokemonContext";
 
 const usePokemonFetch = (currentTab: number | null) => {
-  // const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
   const { pokemonData, isLoading, setIsLoading, setPokemonData } =
     useContext(PokemonContext);
 
   const baseUrl = "https://pokeapi.co/api/v2";
 
+  const [offset, setOffset] = useState(0);
+
   const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      const pokemonUrl = `${baseUrl}/pokemon`;
+      const pokemonUrl = `${baseUrl}/pokemon?limit=20&offset=${offset}`;
       const pokemonResponse = await fetch(pokemonUrl);
       const pokemonData = await pokemonResponse.json();
 
       const fetchedPokemonPromises = pokemonData.results.map(
-        async (pokemon: Pokemon) => {
+        async (pokemon) => {
           try {
             const pokemonDetailResponse = await fetch(pokemon.url);
             const pokemonDetailData = await pokemonDetailResponse.json();
@@ -46,7 +46,8 @@ const usePokemonFetch = (currentTab: number | null) => {
         (pokemon) => pokemon !== null
       );
 
-      setPokemonData(filteredPokemonData);
+      setPokemonData((prevData) => [...prevData, ...filteredPokemonData]);
+      setOffset((offset) => offset + 20);
     } catch (error) {
       console.error(error);
     } finally {
@@ -63,7 +64,7 @@ const usePokemonFetch = (currentTab: number | null) => {
       const generationData = await generationResponse.json();
 
       const fetchedPokemonPromises = generationData.pokemon_species.map(
-        async (pokemon: Pokemon) => {
+        async (pokemon) => {
           try {
             const speciesDetailResponse = await fetch(pokemon.url);
             const speciesDetailData = await speciesDetailResponse.json();
@@ -98,11 +99,30 @@ const usePokemonFetch = (currentTab: number | null) => {
     }
   };
 
+  const handleScroll = (e) => {
+    const shouldLoadData =
+      window.innerHeight + e.target.documentElement.scrollTop + 1 >=
+      e.target.documentElement.scrollHeight;
+
+    if (shouldLoadData && currentTab === null) {
+      fetchData();
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [offset]);
+
   useEffect(() => {
     if (currentTab !== null) {
       fetchGenerationData();
-    } else {
-      fetchData();
     }
   }, [currentTab]);
 
