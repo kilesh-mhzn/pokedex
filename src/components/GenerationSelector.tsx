@@ -22,7 +22,9 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
   };
   const clearFilter = () => {
     setActiveTab(null);
-    onTabChange(null);
+    if (onTabChange) {
+      onTabChange(null);
+    }
   };
 
   return (

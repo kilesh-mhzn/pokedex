@@ -1,5 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import { PokemonContext } from "../contexts/pokemonContext";
+import { Pokemon } from "../components/pokemonCard";
 
 const usePokemonFetch = (currentTab: number | null) => {
   const { pokemonData, isLoading, setIsLoading, setPokemonData } =
@@ -18,7 +19,7 @@ const usePokemonFetch = (currentTab: number | null) => {
       const pokemonData = await pokemonResponse.json();
 
       const fetchedPokemonPromises = pokemonData.results.map(
-        async (pokemon) => {
+        async (pokemon: Pokemon) => {
           try {
             const pokemonDetailResponse = await fetch(pokemon.url);
             const pokemonDetailData = await pokemonDetailResponse.json();
@@ -59,12 +60,13 @@ const usePokemonFetch = (currentTab: number | null) => {
     setIsLoading(true);
 
     try {
+      if (!currentTab) return;
       const generationUrl = `${baseUrl}/generation/${currentTab + 1}`;
       const generationResponse = await fetch(generationUrl);
       const generationData = await generationResponse.json();
 
       const fetchedPokemonPromises = generationData.pokemon_species.map(
-        async (pokemon) => {
+        async (pokemon: Pokemon) => {
           try {
             const speciesDetailResponse = await fetch(pokemon.url);
             const speciesDetailData = await speciesDetailResponse.json();
@@ -99,7 +101,7 @@ const usePokemonFetch = (currentTab: number | null) => {
     }
   };
 
-  const handleScroll = (e) => {
+  const handleScroll = (e: any) => {
     const shouldLoadData =
       window.innerHeight + e.target.documentElement.scrollTop + 1 >=
       e.target.documentElement.scrollHeight;

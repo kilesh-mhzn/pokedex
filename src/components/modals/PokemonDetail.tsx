@@ -60,13 +60,13 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     );
   };
 
-  const [tabs, setTabs] = useState([
+  const [tabs] = useState([
     { label: "About", content: aboutContent() },
     { label: "Base Stats", content: baseStats() },
     { label: "Evolution", content: <div>Content for Tab 3</div> },
   ]);
 
-  const [currentTab, setCurrentTab] = useState<number>(0);
+  const [_, setCurrentTab] = useState<number>(0);
 
   const handleTabChange = (activeTab: number) => {
     setCurrentTab(activeTab);
