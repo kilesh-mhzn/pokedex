@@ -162,6 +162,8 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
           loading="lazy"
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
+          onTouchStart={(event) => event.preventDefault()}
+          onTouchEnd={(event) => event.preventDefault()}
           onContextMenu={(event) => event.preventDefault()}
         />
         {pokemonExistsInTeam && (
