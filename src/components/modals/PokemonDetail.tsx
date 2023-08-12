@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import RamroTabs from "../RamroTabs";
 import { Pokemon } from "../pokemonCard";
+import { PokemonContext } from "../../contexts/pokemonContext";
 
 interface IProps {
   pokemon: Pokemon;
@@ -66,11 +67,37 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     { label: "Evolution", content: <div>Content for Tab 3</div> },
   ]);
 
+  const { addToTeam, removeFromTeam, pokemonTeam } = useContext(PokemonContext);
+
   const [_, setCurrentTab] = useState<number>(0);
 
   const handleTabChange = (activeTab: number) => {
     setCurrentTab(activeTab);
   };
+
+  const [pressing, setPressing] = useState(false);
+  let timer: number | undefined;
+
+  const pokemonExistsInTeam = pokemonTeam.find(
+    (teamPokemon) => teamPokemon.id === pokemon.id
+  );
+  const handleMouseDown = () => {
+    if (pokemonExistsInTeam) return;
+    timer = setTimeout(() => {
+      // Perform the action here
+      addToTeam(pokemon);
+    }, 1500);
+    setPressing(true);
+  };
+
+  const handleMouseUp = () => {
+    clearTimeout(timer);
+    if (pressing) {
+      console.log("Action canceled");
+    }
+    setPressing(false);
+  };
+
   return (
     <div
       className={`pokemon__detail relative bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50 h-full 
@@ -84,7 +111,9 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
         <span className="text-white-100 z-0 absolute left-6 top-3 text-2xl opacity-60 ">
           #{String(pokemon.order).padStart(3, "0")}
         </span>
-        <div className="font-game text-white capitalize">{pokemon.name}</div>
+        <div className="font-game text-white-100 capitalize">
+          {pokemon.name}
+        </div>
         <div className="flex gap-3 justify-center">
           {pokemon.types.map(({ type }, i) => (
             <div
@@ -95,17 +124,39 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
             </div>
           ))}
         </div>
-        <div className="min-h-[150px]"></div>
+        {!pokemonExistsInTeam && (
+          <div className="text-sm font-semibold text-white-100">
+            Click and Hold the Pokémon to capture!!
+          </div>
+        )}
+        <div className="min-h-[120px]"></div>
       </div>
       <div className="pokemon_tabs relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
         <img
-          className="h-[150px] absolute top-[-130px] right-1/2 translate-x-1/2 "
+          className={`h-[150px] absolute top-[-130px] right-1/2 translate-x-1/2 ${
+            !pokemonExistsInTeam ? "cursor-pointer" : ""
+          }  `}
           src={
             pokemon.sprites.other.dream_world.front_default ||
             pokemon.sprites.front_default
           }
           loading="lazy"
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
         />
+        {pokemonExistsInTeam && (
+          <div
+            title="Release Pokemon!"
+            onClick={(event) => {
+              event.stopPropagation();
+              removeFromTeam(pokemon.id);
+            }}
+            className="absolute top-[15px] right-[30px] cursor-pointer z-20 "
+          >
+            <img width={22} src="/logo.svg" alt="" />
+          </div>
+        )}
+
         <RamroTabs tabs={tabs} onTabChange={handleTabChange} />
       </div>
     </div>
