@@ -59,7 +59,7 @@ export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {
       </span>
       <img
         className="absolute z-0 opacity-60 right-[-20px] bottom-[-20px] w-1/2 "
-        src="src\assets\icons\pokeball.svg"
+        src="/pokeball.svg"
       />
       <div className="flex justify-between gap-2 ">
         <div className="flex flex-col justify-around z-10">
