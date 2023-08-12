@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import RamroTabs from "../RamroTabs";
 import { Pokemon } from "../pokemonCard";
 import { PokemonContext } from "../../contexts/pokemonContext";
+import RamroToast from "../RamroToast";
 
 interface IProps {
   pokemon: Pokemon;
@@ -67,6 +68,17 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     { label: "Evolution", content: <div>Content for Tab 3</div> },
   ]);
 
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>("false");
+
+  const handleShowToast = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+  };
+
+  const handleCloseToast = () => {
+    setShowToast(false);
+  };
   const { addToTeam, removeFromTeam, pokemonTeam } = useContext(PokemonContext);
 
   const [_, setCurrentTab] = useState<number>(0);
@@ -86,6 +98,7 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     timer = setTimeout(() => {
       // Perform the action here
       addToTeam(pokemon);
+      handleShowToast("Pokémon captured successfully!");
     }, 1500);
     setPressing(true);
   };
@@ -96,6 +109,12 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
       console.log("Action canceled");
     }
     setPressing(false);
+  };
+
+  const handlePokemonRelease = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    removeFromTeam(pokemon.id);
+    handleShowToast("Pokémon released successfully!");
   };
 
   return (
@@ -147,10 +166,7 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
         {pokemonExistsInTeam && (
           <div
             title="Release Pokemon!"
-            onClick={(event) => {
-              event.stopPropagation();
-              removeFromTeam(pokemon.id);
-            }}
+            onClick={handlePokemonRelease}
             className="absolute top-[15px] right-[30px] cursor-pointer z-20 "
           >
             <img width={22} src="/logo.svg" alt="" />
@@ -159,6 +175,9 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
 
         <RamroTabs tabs={tabs} onTabChange={handleTabChange} />
       </div>
+      {showToast && (
+        <RamroToast message={toastMessage} onClose={handleCloseToast} />
+      )}
     </div>
   );
 };
