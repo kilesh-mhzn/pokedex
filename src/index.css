@@ -88,18 +88,22 @@ button:focus-visible {
 @keyframes slideIn {
   from {
     transform: translateY(100%);
+    transform: translatex(50%);
   }
   to {
     transform: translateY(0);
+    transform: translatex(50%);
   }
 }
 
 @keyframes slideOut {
   from {
     transform: translateY(0);
+    transform: translatex(50%);
   }
   to {
     transform: translateY(100%);
+    transform: translatex(50%);
   }
 }
 
