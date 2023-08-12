@@ -23,7 +23,7 @@ const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
     <div
       className={`${visible ? "animate-slideOut" : "animate-slideIn"} 
       fixed top-10 right-1/2 translate-x-1/2 bg-slate-50 text-slate-800 dark:bg-gray-800 dark:text-white-100 
-      px-4 py-2 rounded-md shadow-md font-semibold z-[9999]`}
+      px-4 py-2 rounded-md shadow-md font-semibold z-[9999] whitespace-nowrap `}
     >
       {message}
     </div>
