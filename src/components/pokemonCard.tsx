@@ -88,29 +88,34 @@ export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {
           </div>
           <div>
             {pokemonExistsInTeam ? (
-              <button
+              <div
+                title="Release Pokemon!"
                 onClick={(event) => {
                   event.stopPropagation();
                   removeFromTeam(pokemon.id);
                 }}
-                className="text-xs absolute bottom-3 left-3 bg-red-500 text-slate-50"
+                className="absolute bottom-3 left-5 "
               >
-                Remove from your Team
-              </button>
+                <img width={22} src="/logo.svg" alt="" />
+              </div>
             ) : pokemonTeam.length >= 6 ? (
-              <button className="text-xs absolute bottom-3 left-3 bg-yellow-500 text-slate-50">
+              <button
+                disabled
+                className="text-xs absolute bottom-3 left-3 bg-yellow-500 text-slate-50"
+              >
                 Team Full
               </button>
             ) : (
-              <button
+              <div
+                title="Catch Pokemon!"
                 onClick={(event) => {
                   event.stopPropagation();
                   addToTeam(pokemon);
                 }}
-                className="text-xs absolute bottom-3 left-3 bg-green-500 text-slate-50"
+                className="absolute bottom-2 left-4 "
               >
-                Add to your Team
-              </button>
+                <img width={30} src="/pokeball-outline.svg" alt="" />
+              </div>
             )}
           </div>
         </div>

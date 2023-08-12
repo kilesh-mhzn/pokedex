@@ -8,9 +8,9 @@ interface DrawerProps {
 }
 
 const RamroDrawer: React.FC<DrawerProps> = ({ isOpen, onClose, children }) => {
-  const drawerClassName = `z-[90] md:w-max fixed top-0 right-0 w-[90%] h-full bg-white-100 shadow-xl transform transition-transform ${
-    isOpen ? "translate-x-0" : "translate-x-full"
-  }`;
+  const drawerClassName = `z-[90] md:w-max fixed top-0 right-0 w-[90%]
+   h-full bg-white-100 dark:bg-slate-800 shadow-xl transform transition-transform 
+   ${isOpen ? "translate-x-0" : "translate-x-full"}`;
 
   useEffect(() => {
     if (isOpen) {
