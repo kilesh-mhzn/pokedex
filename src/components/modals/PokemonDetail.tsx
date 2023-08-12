@@ -96,7 +96,7 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
       <div className="pokemon_tabs relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
         <img
           className="absolute z-0 opacity-60 right-[-40px] top-[-120px] w-1/3 "
-          src="src\assets\icons\pokeball.svg"
+          src="/pokeball.svg"
         />
         <img
           className="h-[150px] absolute top-[-130px] right-1/2 translate-x-1/2 "
