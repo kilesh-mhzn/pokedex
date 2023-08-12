@@ -57,6 +57,7 @@ const usePokemonFetch = (currentTab: number | null) => {
   };
 
   const fetchGenerationData = async () => {
+    setOffset(0);
     setIsLoading(true);
 
     try {
@@ -112,10 +113,6 @@ const usePokemonFetch = (currentTab: number | null) => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -125,6 +122,8 @@ const usePokemonFetch = (currentTab: number | null) => {
   useEffect(() => {
     if (currentTab !== null) {
       fetchGenerationData();
+    } else {
+      fetchData();
     }
   }, [currentTab]);
 

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IconClose } from "./icons";
+import { PokemonContext } from "../contexts/pokemonContext";
 
 interface Tab {
   id: number;
@@ -13,7 +14,7 @@ interface TabProps {
 
 const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
   const [activeTab, setActiveTab] = useState<number | null>(null);
-
+  const { setPokemonData } = useContext(PokemonContext);
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex);
     if (onTabChange) {
@@ -21,6 +22,7 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
     }
   };
   const clearFilter = () => {
+    setPokemonData([]);
     setActiveTab(null);
     if (onTabChange) {
       onTabChange(null);
