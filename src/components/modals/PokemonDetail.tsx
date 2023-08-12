@@ -162,6 +162,7 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
           loading="lazy"
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
+          onContextMenu={(event) => event.preventDefault()}
         />
         {pokemonExistsInTeam && (
           <div
