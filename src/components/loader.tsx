@@ -1,6 +1,6 @@
 const Loader = () => {
   return (
-    <div className="h-screen w-screen absolute top-0 left-0 flex items-center justify-center">
+    <div className="fixed inset-0 flex items-center justify-center z-[998]">
       <div className="bg-slate-800 opacity-60 absolute inset-0 z-[999]"></div>
       <img
         src="\pokeball.svg"
