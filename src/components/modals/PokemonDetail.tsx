@@ -145,27 +145,29 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
         </div>
         {!pokemonExistsInTeam && (
           <div className="text-sm font-semibold text-white-100">
-            Click and Hold the Pokémon to capture!!
+            Tap and Hold the Pokémon to capture!!
           </div>
         )}
         <div className="min-h-[120px]"></div>
       </div>
       <div className="pokemon_tabs relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
-        <img
-          className={`h-[150px] absolute top-[-130px] right-1/2 translate-x-1/2 ${
-            !pokemonExistsInTeam ? "cursor-pointer" : ""
-          }  `}
-          src={
-            pokemon.sprites.other.dream_world.front_default ||
-            pokemon.sprites.front_default
-          }
-          loading="lazy"
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
-          onTouchStart={(event) => event.preventDefault()}
-          onTouchEnd={(event) => event.preventDefault()}
-          onContextMenu={(event) => event.preventDefault()}
-        />
+        <div className="absolute top-[-130px] right-1/2 translate-x-1/2">
+          <img
+            className={`h-[150px]  ${
+              !pokemonExistsInTeam ? "cursor-pointer" : ""
+            }  `}
+            src={
+              pokemon.sprites.other.dream_world.front_default ||
+              pokemon.sprites.front_default
+            }
+            loading="lazy"
+          />
+          <div
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            className="absolute bg-transparent w-full h-[150px] top-0"
+          ></div>
+        </div>
         {pokemonExistsInTeam && (
           <div
             title="Release Pokemon!"
