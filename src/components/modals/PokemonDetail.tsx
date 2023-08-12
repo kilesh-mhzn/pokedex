@@ -165,6 +165,7 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
           <div
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
+            onTouchStart={handleMouseDown}
             className="absolute bg-transparent w-full h-[150px] top-0"
           ></div>
         </div>
