@@ -4,7 +4,13 @@ import { PokemonContext } from "../../contexts/pokemonContext";
 
 export const PokemonTeams = () => {
   const { pokemonTeam } = useContext(PokemonContext);
-  if (!pokemonTeam.length) return <div>Nothing to show</div>;
+  if (!pokemonTeam.length)
+    return (
+      <div className="h-screen flex flex-col justify-center items-center w-[352px]">
+        <img width={200} className="" src="/pokeball.svg" />
+        Nothing Captured Yet
+      </div>
+    );
   return (
     <>
       <div className="text-4xl font-bold text-center m-6">The Team</div>
