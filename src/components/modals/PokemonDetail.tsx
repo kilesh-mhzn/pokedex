@@ -73,9 +73,13 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
   };
   return (
     <div
-      className={`pokemon__detail bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50 h-full 
+      className={`pokemon__detail relative bg-${pokemon.color.name}-400 shadow-${pokemon.color.name}-400/50 h-full 
       flex flex-col justify-between`}
     >
+      <img
+        className="absolute opacity-60 right-[-40px] top-[30%] md:top-[33%] w-1/3 "
+        src="/pokeball.svg"
+      />
       <div className="relative flex flex-col items-center gap-4 p-6 pt-8">
         <span className="text-white-100 z-0 absolute left-6 top-3 text-2xl opacity-60 ">
           #{String(pokemon.order).padStart(3, "0")}
@@ -94,10 +98,6 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
         <div className="min-h-[150px]"></div>
       </div>
       <div className="pokemon_tabs relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
-        <img
-          className="absolute z-0 opacity-60 right-[-40px] top-[-120px] w-1/3 "
-          src="/pokeball.svg"
-        />
         <img
           className="h-[150px] absolute top-[-130px] right-1/2 translate-x-1/2 "
           src={

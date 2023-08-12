@@ -45,8 +45,12 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
         ))}
       </div>
       {activeTab !== null ? (
-        <div onClick={clearFilter} className="cursor-pointer">
-          <IconClose size="1.5em" color="#000" />
+        <div
+          onClick={clearFilter}
+          title="Clear Filter"
+          className="cursor-pointer rounded-full bg-slate-50 dark:bg-slate-800 p-1 shadow-lg"
+        >
+          <IconClose size="1.5em" color="#ef4444" />
         </div>
       ) : null}
     </div>

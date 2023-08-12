@@ -3,7 +3,7 @@ import { PokemonContext } from "../contexts/pokemonContext";
 import { Pokemon } from "../components/pokemonCard";
 
 const usePokemonFetch = (currentTab: number | null) => {
-  const { pokemonData, isLoading, setIsLoading, setPokemonData } =
+  const { pokemonData, isLoading, setIsLoading, setPokemonData, pokemonTeam } =
     useContext(PokemonContext);
 
   const baseUrl = "https://pokeapi.co/api/v2";
@@ -32,6 +32,9 @@ const usePokemonFetch = (currentTab: number | null) => {
               ...pokemonDetailData,
               color: speciesDetailData.color,
               generation: speciesDetailData.generation.name,
+              isInTeam: pokemonTeam.some(
+                (teamPokemon) => teamPokemon.id === pokemonDetailData.id
+              ),
             };
 
             return combinedPokemonData;
@@ -79,6 +82,9 @@ const usePokemonFetch = (currentTab: number | null) => {
             const combinedPokemonData = {
               ...pokemonDetailData,
               color: speciesDetailData.color,
+              isInTeam: pokemonTeam.some(
+                (teamPokemon) => teamPokemon.id === pokemonDetailData.id
+              ),
             };
 
             return combinedPokemonData;
@@ -117,7 +123,7 @@ const usePokemonFetch = (currentTab: number | null) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [offset]);
+  }, [offset, pokemonTeam]);
 
   useEffect(() => {
     if (currentTab !== null) {
@@ -125,7 +131,7 @@ const usePokemonFetch = (currentTab: number | null) => {
     } else {
       fetchData();
     }
-  }, [currentTab]);
+  }, [currentTab, pokemonTeam]);
 
   return { isLoading, pokemonData };
 };
