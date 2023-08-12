@@ -4,10 +4,16 @@ import PokemonCards from "../components/PokemonCards";
 import Loader from "../components/loader";
 import { Logo } from "../components/logo";
 import usePokemonFetch from "../hooks/usePokemonFetch";
+import RamroDrawer from "../components/RamroDrawer";
+import { PokemonTeams } from "../components/drawers/PokemonTeams";
 
 function PokemonListing() {
   const [tabs, setTabs] = useState([]);
   const [currentTab, setCurrentTab] = useState<number | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
 
   const handleTabChange = (activeTab: number | null) => {
     setCurrentTab(activeTab);
@@ -37,13 +43,27 @@ function PokemonListing() {
 
   return (
     <div className="container mx-auto mb-12">
-      <Logo />
+      <div className="flex justify-between items-center">
+        <div></div>
+        <Logo />
+        <div>
+          <button
+            className="bg-slate-800 text-white-100 dark:text-white-100 dark:bg-slate-800"
+            onClick={toggleDrawer}
+          >
+            My Team
+          </button>
+        </div>
+      </div>
       <div className="text-center text-blue-600 font-bold text-lg mb-2">
         Select Generation:
       </div>
       <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
       {isLoading && <Loader />}
       {<PokemonCards pokemons={pokemonData} />}
+      <RamroDrawer isOpen={drawerOpen} onClose={toggleDrawer}>
+        <PokemonTeams />
+      </RamroDrawer>
     </div>
   );
 }

@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { PokemonContext } from "../contexts/pokemonContext";
+
 interface Sprite {
   front_default: string;
 }
@@ -24,6 +27,7 @@ interface Stat {
 }
 
 export interface Pokemon {
+  id: number;
   url: string;
   order: number;
   name: string;
@@ -41,13 +45,19 @@ export interface Pokemon {
   abilities: Ability[];
   height: number;
   stats: Stat[];
+  isInTeam: Boolean;
 }
 
 interface CardProps {
   pokemon: Pokemon;
-  onClick: () => void;
+  onClick?: () => void;
 }
 export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {
+  const { addToTeam, removeFromTeam, pokemonTeam } = useContext(PokemonContext);
+  const pokemonExistsInTeam = pokemonTeam.find(
+    (teamPokemon) => teamPokemon.id === pokemon.id
+  );
+
   return (
     <div
       onClick={onClick}
@@ -75,6 +85,33 @@ export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {
                 {type.name}
               </div>
             ))}
+          </div>
+          <div>
+            {pokemonExistsInTeam ? (
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  removeFromTeam(pokemon.id);
+                }}
+                className="text-xs absolute bottom-3 left-3 bg-red-500 text-slate-50"
+              >
+                Remove from your Team
+              </button>
+            ) : pokemonTeam.length >= 6 ? (
+              <button className="text-xs absolute bottom-3 left-3 bg-yellow-500 text-slate-50">
+                Team Full
+              </button>
+            ) : (
+              <button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  addToTeam(pokemon);
+                }}
+                className="text-xs absolute bottom-3 left-3 bg-green-500 text-slate-50"
+              >
+                Add to your Team
+              </button>
+            )}
           </div>
         </div>
         <div className="z-10">
