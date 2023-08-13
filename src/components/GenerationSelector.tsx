@@ -31,7 +31,7 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
 
   return (
     <div className="flex justify-center mb-8 items-center gap-3">
-      <div className="flex shadow dark:bg-slate-800 bg-slate-50 rounded font-semibold">
+      <div className="flex shadow dark:bg-slate-800 bg-slate-50 rounded font-semibold w-full sm:w-auto justify-evenly">
         {tabs.map((tab, index) => (
           <div
             key={index}
