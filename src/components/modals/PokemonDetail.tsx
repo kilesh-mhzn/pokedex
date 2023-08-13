@@ -1,14 +1,14 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RamroTabs from "../RamroTabs";
-import { Pokemon } from "../pokemonCard";
-import { PokemonContext } from "../../contexts/pokemonContext";
+import { IPokemon, PokemonContext } from "../../contexts/pokemonContext";
 import RamroToast from "../RamroToast";
+import EvolutionDetails from "../tabs/EvolutionDetails";
 
 interface IProps {
-  pokemon: Pokemon;
+  pokemon: IPokemon;
 }
 export const PokemonDetail = ({ pokemon }: IProps) => {
-  const aboutContent = () => {
+  const AboutContent = () => {
     return (
       <table className="capitalize">
         <tbody>
@@ -37,7 +37,7 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     );
   };
 
-  const baseStats = () => {
+  const BaseStats = () => {
     return (
       <div>
         {pokemon.stats.map(({ stat, base_stat }, index) => {
@@ -63,9 +63,9 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
   };
 
   const [tabs] = useState([
-    { label: "About", content: aboutContent() },
-    { label: "Base Stats", content: baseStats() },
-    { label: "Evolution", content: <div>Content for Tab 3</div> },
+    { label: "About", content: <AboutContent /> },
+    { label: "Base Stats", content: <BaseStats /> },
+    { label: "Evolution", content: <EvolutionDetails pokemon={pokemon} /> },
   ]);
 
   const [showToast, setShowToast] = useState<boolean>(false);
@@ -87,29 +87,36 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     setCurrentTab(activeTab);
   };
 
-  const [pressing, setPressing] = useState(false);
   let timer: number | undefined;
 
   const pokemonExistsInTeam = pokemonTeam.find(
     (teamPokemon) => teamPokemon.id === pokemon.id
   );
-  const handleMouseDown = () => {
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
     if (pokemonExistsInTeam) return;
     timer = setTimeout(() => {
-      // Perform the action here
       addToTeam(pokemon);
       handleShowToast("Pokémon captured successfully!");
     }, 1500);
-    setPressing(true);
   };
 
   const handleMouseUp = () => {
     clearTimeout(timer);
-    if (pressing) {
-      console.log("Action canceled");
-    }
-    setPressing(false);
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [timer]);
+
+  useEffect(() => {
+    if (timer) {
+      addToTeam(pokemon);
+      handleShowToast("Pokémon captured successfully!");
+    }
+  }, [timer, pokemon]);
 
   const handlePokemonRelease = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -151,11 +158,12 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
         <div className="min-h-[120px]"></div>
       </div>
       <div className="pokemon_tabs relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
-        <div className="absolute top-[-130px] right-1/2 translate-x-1/2">
+        <div
+          className={`absolute top-[-130px] right-1/2 translate-x-1/2  
+          ${!pokemonExistsInTeam ? "cursor-pointer" : ""}`}
+        >
           <img
-            className={`h-[150px]  ${
-              !pokemonExistsInTeam ? "cursor-pointer" : ""
-            }  `}
+            className={`h-[150px]   `}
             src={
               pokemon.sprites.other.dream_world.front_default ||
               pokemon.sprites.front_default

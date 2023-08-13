@@ -1,16 +1,17 @@
 import { useState } from "react";
 import RamroModal from "./RamroModal";
-import { PokemonCard, Pokemon } from "./pokemonCard";
+import { PokemonCard } from "./pokemonCard";
 import { PokemonDetail } from "./modals/PokemonDetail";
+import { IPokemon } from "../contexts/pokemonContext";
 
 interface CardProps {
-  pokemons: Pokemon[];
+  pokemons: IPokemon[];
 }
 const PokemonCards: React.FC<CardProps> = ({ pokemons }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [selectedPokemon, setSelectedPokemon] = useState<IPokemon | null>(null);
 
-  const openModal = (pokemon: Pokemon) => {
+  const openModal = (pokemon: IPokemon) => {
     setSelectedPokemon(pokemon);
     setIsModalOpen(true);
   };
