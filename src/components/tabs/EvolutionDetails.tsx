@@ -50,7 +50,9 @@ const EvolutionDetails = ({ pokemon }: IProps) => {
         ...prevEvolutions,
         {
           name: speciesName,
-          pokemonImg: foundPokemon.sprites.other.dream_world.front_default,
+          pokemonImg:
+            foundPokemon.sprites.other.dream_world.front_default ||
+            foundPokemon.sprites.front_default,
         },
       ]);
     }
