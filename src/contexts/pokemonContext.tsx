@@ -10,7 +10,12 @@ import {
 interface Sprite {
   front_default: string;
 }
-
+interface Stat {
+  base_stat: number;
+  stat: {
+    name: string;
+  };
+}
 interface OtherSprites {
   dream_world: Sprite;
 }
@@ -20,8 +25,16 @@ interface PokemonType {
     name: string;
   };
 }
-
-export interface Pokemon {
+interface Ability {
+  ability: {
+    name: string;
+  };
+}
+export interface IGeneration {
+  lable: string;
+  name: string;
+}
+export interface IPokemon {
   id: number;
   url: string;
   order: number;
@@ -35,22 +48,22 @@ export interface Pokemon {
   color: {
     name: string;
   };
-  generation: string;
   weight: number;
+  abilities: Ability[];
   height: number;
-  stats: any[];
-  abilities: any[];
+  stats: Stat[];
   isInTeam: Boolean;
+  evolution_chain_url: string;
 }
 
 interface PokemonContextInterface {
-  pokemonData: Pokemon[];
-  setPokemonData: Dispatch<SetStateAction<Pokemon[]>>;
+  pokemonData: IPokemon[];
+  setPokemonData: Dispatch<SetStateAction<IPokemon[]>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
-  pokemonTeam: Pokemon[];
-  setPokemonTeam: Dispatch<SetStateAction<Pokemon[]>>;
-  addToTeam: (pokemon: Pokemon) => void;
+  pokemonTeam: IPokemon[];
+  setPokemonTeam: Dispatch<SetStateAction<IPokemon[]>>;
+  addToTeam: (pokemon: IPokemon) => void;
   removeFromTeam: (id: number) => void;
 }
 
@@ -72,15 +85,15 @@ const defaultState: PokemonContextInterface = {
 export const PokemonContext = createContext(defaultState);
 
 export default function PokemonProvider({ children }: PokemonProviderProps) {
-  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
+  const [pokemonData, setPokemonData] = useState<IPokemon[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [pokemonTeam, setPokemonTeam] = useState<Pokemon[]>(() => {
+  const [pokemonTeam, setPokemonTeam] = useState<IPokemon[]>(() => {
     const savedPokemonTeam = localStorage.getItem("pokemonTeam");
     return savedPokemonTeam ? JSON.parse(savedPokemonTeam) : [];
   });
 
-  const addToTeam = (pokemon: Pokemon) => {
+  const addToTeam = (pokemon: IPokemon) => {
     const pokemonExists = pokemonTeam.find(
       (teamPokemon) => teamPokemon.id === pokemon.id
     );

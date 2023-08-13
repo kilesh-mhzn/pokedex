@@ -6,6 +6,7 @@ import { Logo } from "../components/logo";
 import usePokemonFetch from "../hooks/usePokemonFetch";
 import RamroDrawer from "../components/RamroDrawer";
 import { PokemonTeams } from "../components/drawers/PokemonTeams";
+import { IGeneration } from "../contexts/pokemonContext";
 
 function PokemonListing() {
   const [tabs, setTabs] = useState([]);
@@ -28,7 +29,7 @@ function PokemonListing() {
       );
       const generations = await generationsData.json();
       const generationsWithLabels = generations.results.map(
-        (generation: any) => ({
+        (generation: IGeneration) => ({
           ...generation,
           label: generation.name.replace("generation-", "").toUpperCase(),
         })

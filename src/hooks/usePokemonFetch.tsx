@@ -1,6 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { PokemonContext } from "../contexts/pokemonContext";
-import { Pokemon } from "../components/pokemonCard";
+import { IPokemon, PokemonContext } from "../contexts/pokemonContext";
 
 const usePokemonFetch = (currentTab: number | null) => {
   const { pokemonData, isLoading, setIsLoading, setPokemonData, pokemonTeam } =
@@ -19,7 +18,7 @@ const usePokemonFetch = (currentTab: number | null) => {
       const pokemonData = await pokemonResponse.json();
 
       const fetchedPokemonPromises = pokemonData.results.map(
-        async (pokemon: Pokemon) => {
+        async (pokemon: IPokemon) => {
           try {
             const pokemonDetailResponse = await fetch(pokemon.url);
             const pokemonDetailData = await pokemonDetailResponse.json();
@@ -71,7 +70,7 @@ const usePokemonFetch = (currentTab: number | null) => {
       const generationData = await generationResponse.json();
 
       const fetchedPokemonPromises = generationData.pokemon_species.map(
-        async (pokemon: Pokemon) => {
+        async (pokemon: IPokemon) => {
           try {
             const speciesDetailResponse = await fetch(pokemon.url);
             const speciesDetailData = await speciesDetailResponse.json();

@@ -1,56 +1,8 @@
 import { useContext } from "react";
-import { PokemonContext } from "../contexts/pokemonContext";
-
-interface Sprite {
-  front_default: string;
-}
-
-interface OtherSprites {
-  dream_world: Sprite;
-}
-
-interface pokemonType {
-  type: {
-    name: string;
-  };
-}
-interface Ability {
-  ability: {
-    name: string;
-  };
-}
-interface Stat {
-  base_stat: number;
-  stat: {
-    name: string;
-  };
-}
-
-export interface Pokemon {
-  id: number;
-  url: string;
-  order: number;
-  name: string;
-  image: string | undefined;
-  types: pokemonType[];
-  sprites: {
-    front_default: string;
-    other: OtherSprites;
-  };
-  color: {
-    name: string;
-  };
-  generation: any;
-  weight: number;
-  abilities: Ability[];
-  height: number;
-  stats: Stat[];
-  isInTeam: Boolean;
-  evolution_chain_url: string;
-}
+import { IPokemon, PokemonContext } from "../contexts/pokemonContext";
 
 interface CardProps {
-  pokemon: Pokemon;
+  pokemon: IPokemon;
   onClick?: () => void;
 }
 export const PokemonCard: React.FC<CardProps> = ({ pokemon, onClick }) => {

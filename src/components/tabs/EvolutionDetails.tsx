@@ -1,16 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { Pokemon } from "../pokemonCard";
-import { PokemonContext } from "../../contexts/pokemonContext";
+import { IPokemon, PokemonContext } from "../../contexts/pokemonContext";
 import { IconRightChevron } from "../icons";
 
 interface IProps {
-  pokemon: Pokemon;
+  pokemon: IPokemon;
 }
 interface IEvolution {
   species: {
     name: string;
   };
-  evolves_to: any[];
+  evolves_to: IEvolution[];
 }
 const EvolutionDetails = ({ pokemon }: IProps) => {
   const [evolutionChain, setEvolutionChain] = useState<any>();
