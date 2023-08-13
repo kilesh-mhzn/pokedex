@@ -100,16 +100,24 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
       addToTeam(pokemon);
       handleShowToast("Pokémon captured successfully!");
     }, 1500);
-    setPressing(true);
   };
 
   const handleMouseUp = () => {
     clearTimeout(timer);
-    if (pressing) {
-      console.log("Action canceled");
-    }
-    setPressing(false);
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [timer]);
+
+  useEffect(() => {
+    if (timer) {
+      addToTeam(pokemon);
+      handleShowToast("Pokémon captured successfully!");
+    }
+  }, [timer, pokemon]);
 
   const handlePokemonRelease = (event: React.MouseEvent) => {
     event.stopPropagation();
