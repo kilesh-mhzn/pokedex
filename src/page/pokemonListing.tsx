@@ -43,12 +43,12 @@ function PokemonListing() {
 
   return (
     <div className="container mx-auto mb-12">
-      <div className="flex flex-col md:flex-row justify-between items-center">
+      <div className="relative flex flex-col md:flex-row md:justify-center items-center">
         <div></div>
         <Logo />
         <div>
           <button
-            className="bg-slate-800 text-white-100 dark:text-white-100 dark:bg-slate-800"
+            className="md:absolute right-0 bottom-1/2 md:translate-y-1/2 bg-slate-800 text-white-100 dark:text-white-100 dark:bg-slate-800"
             onClick={toggleDrawer}
           >
             My Team
