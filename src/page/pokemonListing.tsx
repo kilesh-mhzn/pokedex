@@ -7,7 +7,6 @@ import usePokemonFetch from "../hooks/usePokemonFetch";
 import RamroDrawer from "../components/RamroDrawer";
 import { PokemonTeams } from "../components/drawers/PokemonTeams";
 import { IGeneration } from "../contexts/pokemonContext";
-import { IconBagpack } from "../components/icons";
 
 function PokemonListing() {
   const [tabs, setTabs] = useState([]);
