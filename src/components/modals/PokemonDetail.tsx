@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import RamroTabs from "../RamroTabs";
-import { Pokemon } from "../pokemonCard";
-import { PokemonContext } from "../../contexts/pokemonContext";
+import { IPokemon, PokemonContext } from "../../contexts/pokemonContext";
 import RamroToast from "../RamroToast";
 import EvolutionDetails from "../tabs/EvolutionDetails";
 
 interface IProps {
-  pokemon: Pokemon;
+  pokemon: IPokemon;
 }
 export const PokemonDetail = ({ pokemon }: IProps) => {
   const AboutContent = () => {
@@ -88,13 +87,13 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     setCurrentTab(activeTab);
   };
 
-  const [pressing, setPressing] = useState(false);
   let timer: number | undefined;
 
   const pokemonExistsInTeam = pokemonTeam.find(
     (teamPokemon) => teamPokemon.id === pokemon.id
   );
-  const handleMouseDown = () => {
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
     if (pokemonExistsInTeam) return;
     timer = setTimeout(() => {
       addToTeam(pokemon);
@@ -159,11 +158,12 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
         <div className="min-h-[120px]"></div>
       </div>
       <div className="pokemon_tabs relative bg-white-100 dark:bg-slate-600 rounded-3xl p-6">
-        <div className="absolute top-[-130px] right-1/2 translate-x-1/2">
+        <div
+          className={`absolute top-[-130px] right-1/2 translate-x-1/2  
+          ${!pokemonExistsInTeam ? "cursor-pointer" : ""}`}
+        >
           <img
-            className={`h-[150px]  ${
-              !pokemonExistsInTeam ? "cursor-pointer" : ""
-            }  `}
+            className={`h-[150px]   `}
             src={
               pokemon.sprites.other.dream_world.front_default ||
               pokemon.sprites.front_default
