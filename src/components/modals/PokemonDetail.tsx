@@ -1,14 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RamroTabs from "../RamroTabs";
 import { Pokemon } from "../pokemonCard";
 import { PokemonContext } from "../../contexts/pokemonContext";
 import RamroToast from "../RamroToast";
+import EvolutionDetails from "../tabs/EvolutionDetails";
 
 interface IProps {
   pokemon: Pokemon;
 }
 export const PokemonDetail = ({ pokemon }: IProps) => {
-  const aboutContent = () => {
+  const AboutContent = () => {
     return (
       <table className="capitalize">
         <tbody>
@@ -37,7 +38,7 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
     );
   };
 
-  const baseStats = () => {
+  const BaseStats = () => {
     return (
       <div>
         {pokemon.stats.map(({ stat, base_stat }, index) => {
@@ -63,9 +64,9 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
   };
 
   const [tabs] = useState([
-    { label: "About", content: aboutContent() },
-    { label: "Base Stats", content: baseStats() },
-    { label: "Evolution", content: <div>Content for Tab 3</div> },
+    { label: "About", content: <AboutContent /> },
+    { label: "Base Stats", content: <BaseStats /> },
+    { label: "Evolution", content: <EvolutionDetails pokemon={pokemon} /> },
   ]);
 
   const [showToast, setShowToast] = useState<boolean>(false);
@@ -96,7 +97,6 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
   const handleMouseDown = () => {
     if (pokemonExistsInTeam) return;
     timer = setTimeout(() => {
-      // Perform the action here
       addToTeam(pokemon);
       handleShowToast("Pokémon captured successfully!");
     }, 1500);

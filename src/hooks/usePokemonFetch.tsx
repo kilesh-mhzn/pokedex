@@ -32,6 +32,7 @@ const usePokemonFetch = (currentTab: number | null) => {
               ...pokemonDetailData,
               color: speciesDetailData.color,
               generation: speciesDetailData.generation.name,
+              evolution_chain_url: speciesDetailData.evolution_chain.url,
               isInTeam: pokemonTeam.some(
                 (teamPokemon) => teamPokemon.id === pokemonDetailData.id
               ),
@@ -82,6 +83,8 @@ const usePokemonFetch = (currentTab: number | null) => {
             const combinedPokemonData = {
               ...pokemonDetailData,
               color: speciesDetailData.color,
+              generation: speciesDetailData.generation.name,
+              evolution_chain_url: speciesDetailData.evolution_chain.url,
               isInTeam: pokemonTeam.some(
                 (teamPokemon) => teamPokemon.id === pokemonDetailData.id
               ),

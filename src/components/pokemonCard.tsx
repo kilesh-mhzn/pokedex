@@ -46,6 +46,7 @@ export interface Pokemon {
   height: number;
   stats: Stat[];
   isInTeam: Boolean;
+  evolution_chain_url: string;
 }
 
 interface CardProps {
