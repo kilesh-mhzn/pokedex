@@ -35,7 +35,7 @@ const GenerationSelector: React.FC<TabProps> = ({ tabs, onTabChange }) => {
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`w-[30px] sm:w-[44px] text-xs sm:text-base flex justify-center py-2 cursor-pointer 
+            className={`w-full sm:w-[44px] text-sm sm:text-base flex justify-center py-2 cursor-pointer 
             hover:bg-slate-200 first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br 
             dark:text-white-100  dark:hover:bg-slate-900
             ${
