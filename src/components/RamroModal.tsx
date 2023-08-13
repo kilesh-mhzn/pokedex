@@ -25,7 +25,7 @@ const RamroModal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div
         onClick={closeModal}
-        className="fixed inset-0 bg-slate-800 opacity-25"
+        className="fixed inset-0 bg-slate-800 opacity-70"
       ></div>
       <div className="bg-slate-100 rounded-3xl overflow-hidden shadow-xl z-50 relative min-h-max w-[90%] md:w-1/2 xl:w-1/3">
         <div
