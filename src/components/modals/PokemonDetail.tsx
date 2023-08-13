@@ -150,9 +150,13 @@ export const PokemonDetail = ({ pokemon }: IProps) => {
             </div>
           ))}
         </div>
-        {!pokemonExistsInTeam && (
+        {!pokemonExistsInTeam ? (
           <div className="text-sm font-semibold text-white-100">
             Tap and Hold the Pokémon to capture!!
+          </div>
+        ) : (
+          <div className="text-sm font-semibold text-white-100">
+            Tap on the Pokéball to release the Pokémon.
           </div>
         )}
         <div className="min-h-[120px]"></div>

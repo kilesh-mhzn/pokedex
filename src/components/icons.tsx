@@ -1,11 +1,13 @@
 interface IconCloseProps {
   size?: string;
   color?: string;
+  className?: string;
 }
 
 export const IconClose: React.FC<IconCloseProps> = ({
   size = "1em",
   color = "currentColor",
+  className,
   ...props
 }) => {
   return (
@@ -23,10 +25,12 @@ export const IconClose: React.FC<IconCloseProps> = ({
 export const IconRightChevron: React.FC<IconCloseProps> = ({
   size = "1em",
   color = "currentColor",
+  className,
   ...props
 }) => {
   return (
     <svg
+      className={className}
       viewBox="0 0 512 512"
       fill={color}
       height={size}

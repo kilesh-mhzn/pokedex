@@ -7,6 +7,7 @@ import usePokemonFetch from "../hooks/usePokemonFetch";
 import RamroDrawer from "../components/RamroDrawer";
 import { PokemonTeams } from "../components/drawers/PokemonTeams";
 import { IGeneration } from "../contexts/pokemonContext";
+import { IconBagpack } from "../components/icons";
 
 function PokemonListing() {
   const [tabs, setTabs] = useState([]);
@@ -47,14 +48,7 @@ function PokemonListing() {
       <div className="relative flex flex-col md:flex-row md:justify-center items-center">
         <div></div>
         <Logo />
-        <div>
-          <button
-            className="md:absolute right-0 bottom-1/2 md:translate-y-1/2 bg-slate-800 text-white-100 dark:text-white-100 dark:bg-slate-800"
-            onClick={toggleDrawer}
-          >
-            My Team
-          </button>
-        </div>
+        <div></div>
       </div>
       <div className="text-center text-blue-600 font-bold text-lg mb-2">
         Select Generation:
@@ -62,6 +56,14 @@ function PokemonListing() {
       <GenerationSelector tabs={tabs} onTabChange={handleTabChange} />
       {isLoading && <Loader />}
       {<PokemonCards pokemons={pokemonData} />}
+      <button
+        className={`fixed bottom-[40px] z-[40] right-[4%] p-4 rounded-full shadow-2xl 
+        bg-slate-100 text-white-100 dark:text-white-100 dark:bg-slate-800`}
+        onClick={toggleDrawer}
+        title="View Team"
+      >
+        <img src="/pokeballs.png" alt="" />
+      </button>
       <RamroDrawer isOpen={drawerOpen} onClose={toggleDrawer}>
         <PokemonTeams />
       </RamroDrawer>
